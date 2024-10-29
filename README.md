@@ -1,16 +1,16 @@
-# movies
+# Movies Flutter
 
-A new Flutter project.
+A movie app built with Flutter, which allows users to explore and search for movies. The app uses an API to fetch information about movies, including details, ratings and genres.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- Display of a list of popular films
+- Movie details including synopsis and reviews
+- List of favorite movies
 
-A few resources to get you started if this is your first Flutter project:
+## Technologies Used
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Flutter
+- Dart
+- HTTP
+- External API (The Movie Database - TMDb)
