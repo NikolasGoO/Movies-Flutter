@@ -34,3 +34,6 @@ The project is organized to maintain separation of concerns and ease of maintena
 - HTTP
 - External API (The Movie Database - TMDb)
 
+
+The code contains comments in some places to explain how that particular piece works, the comments are language Portuguese Brazil.
+
