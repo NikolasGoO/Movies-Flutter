@@ -1,16 +1,39 @@
-# movies
+# Movies App
 
-A new Flutter project.
+A movie app built with Flutter, which allows users to explore and search for movies. The app uses an API to fetch information about movies, including details, ratings and genres.
+This project is a Flutter application that consumes [The Movie Database API (TMDb)](https://www.themoviedb.org/) to display detailed information about popular movies. The app includes features like movie listings, detailed views, and ratings.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- **Popular Movies Listing**: Displays a list of popular movies from TMDb.
+- **Movie Details**: Shows detailed information about a selected movie, including description, rating, and release date.
+- **Pagination**: Allows browsing through multiple pages of movie results.
+- Display of a list of popular films
+- Movie details including synopsis and reviews
+- List of favorite movies
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Project Structure
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The project is organized to maintain separation of concerns and ease of maintenance. Key folders and files include:
+
+- **controllers**: Contains controllers that handle the app's business logic.
+- **models**: Defines data models for the app, including `MovieModel`, `MovieDetailModel`, and `MovieResponseModel`.
+- **repositories**: Manages external API consumption (like TMDb), handling HTTP operations and error processing.
+- **widgets**: Custom components like `CenteredMessage`, `CenteredProgress`, `ChipDate`, and `Rate` used in the UI.
+
+## Prerequisites
+
+- **Flutter SDK**: Ensure you have the Flutter SDK installed. Follow [this guide](https://docs.flutter.dev/get-started/install) for installation instructions.
+- **TMDb API Key**: Accessing the TMDb API requires an API key. Sign up on [TMDb](https://www.themoviedb.org/) and get your API key.
+
+## Technologies Used
+
+- Flutter
+- Dart
+- HTTP
+- External API (The Movie Database - TMDb)
+
+
+The code contains comments in some places to explain how that particular piece works, the comments are language Portuguese Brazil.
+
