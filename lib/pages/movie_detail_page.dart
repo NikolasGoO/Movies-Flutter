@@ -16,6 +16,7 @@ class MovieDetailPage extends StatefulWidget {
 
 class _MovieDetailPageState extends State<MovieDetailPage> {
   final _controller = MovieDetailController();
+  String? _translatedSynopsis;
 
   @override
   void initState() {
@@ -35,6 +36,18 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
     });
   }
 
+  Future<void> _translateSynopsis() async {
+    if (_controller.movieDetail?.overview != null) {
+      final translated = await _controller.translateSynopsis(
+        _controller.movieDetail!.overview!,
+        'PT', // Português como idioma de destino
+      );
+      setState(() {
+        _translatedSynopsis = translated ?? "Translation failed.";
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,12 +58,18 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
 
   _buildAppBar() {
     return AppBar(
-      title: Text(_controller.movieDetail?.title ?? ''), // Exibe o título do filme ou uma string vazia.
+      title: Text(_controller.movieDetail?.title ?? ''),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.translate),
+          onPressed: _translateSynopsis,
+          tooltip: 'Translate Synopsis',
+        ),
+      ],
     );
   }
 
   _buildMovieDetail() {
-    // Constrói a exibição dos detalhes do filme.
     if (_controller.loading) {
       return CenteredProgress();
     }
@@ -61,23 +80,24 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
 
     return ListView(
       children: [
-        _buildCover(), // Exibe a imagem de capa do filme
-        _buildStatus(), // Exibe a avaliação e a data de lançamento do filme.
-        _buildOverview(), // Exibe a sinopse do filme.
+        _buildCover(),
+        _buildStatus(),
+        _buildOverview(),
       ],
     );
   }
-    // Constrói a visão geral do filme (sinopse).
+
   _buildOverview() {
     return Container(
       padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-      child: Text(_controller.movieDetail?.overview ?? '',
-          textAlign: TextAlign.justify,
-          style: Theme.of(context).textTheme.bodyMedium), // Usa o estilo de texto do tema.
+      child: Text(
+        _translatedSynopsis ?? _controller.movieDetail?.overview ?? '',
+        textAlign: TextAlign.justify,
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
     );
   }
 
-  // Constrói a exibição da avaliação e da data de lançamento do filme.
   _buildStatus() {
     return Container(
       padding: const EdgeInsets.all(10.0),
@@ -91,7 +111,6 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
     );
   }
 
-  // Constrói a imagem de capa do filme.
   _buildCover() {
     return Image.network(
       'https://image.tmdb.org/t/p/w500${_controller.movieDetail?.backdropPath}',

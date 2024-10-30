@@ -5,6 +5,7 @@ import '../widgets/centered_message.dart';
 import '../widgets/centered_progress.dart';
 import '../widgets/movie_card.dart';
 import '../controllers/movie_controller.dart';
+import 'movie_search_page.dart';
 
 class MoviePage extends StatefulWidget {
   @override
@@ -61,8 +62,8 @@ class _MoviePageState extends State<MoviePage> {
       title: Text(KAppName),
       actions: [
         IconButton(
-          icon: Icon(Icons.refresh),
-          onPressed: _initialize,
+          icon: Icon(Icons.search),
+          onPressed: _openSearchPage,
         ),
       ],
     );
@@ -99,6 +100,10 @@ class _MoviePageState extends State<MoviePage> {
     );
   }
 
+  _openSearchPage() {
+    Navigator.push(context,
+    MaterialPageRoute(builder: (context) => MovieSearchPage()));
+  }
   _openDetailPage(movieId) {
     Navigator.push(
       context,

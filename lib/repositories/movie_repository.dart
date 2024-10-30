@@ -25,6 +25,24 @@ class MovieRepository {
       return Left(MovieRepositoryError(error.toString()));
     }
   }
+
+  //Método busca filme pelo nome
+  Future<Either<MovieError, MovieResponseModel>> fetchMoviesByName(String query) async {
+    try {
+      final response = await _dio.get('/search/movie', queryParameters: {'query': query});
+      final model = MovieResponseModel.fromJson(response.data);
+      return Right(model);
+    } on DioException catch (error) {
+      if (error.response != null) {
+        return Left(MovieRepositoryError(error.response!.data['status_message']!));
+      } else {
+        return Left(MovieRepositoryError(KServerError));
+      }
+    } on Exception catch (error) {
+      return Left(MovieRepositoryError(error.toString()));
+    }
+  }
+
 // Método para buscar um filme específico pelo seu ID.
   Future<Either<MovieError, MovieDetailModel>> fetchMovieById(int id) async {
     try {

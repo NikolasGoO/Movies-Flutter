@@ -19,6 +19,7 @@ class MovieController {
   int get totalPages => movieResponseModel?.totalPages ?? 1; // Retorna o número total de páginas de filmes.
   int get currentPage => movieResponseModel?.page ?? 1; // Retorna a página atual de filmes.
 
+  //Método que busca todos os Filmes
   Future<Either<MovieError, MovieResponseModel>> fetchAllMovies(
   {int page = 1}) async {
     movieError = null; // Reseta o erro antes de uma nova chamada.
@@ -36,5 +37,15 @@ class MovieController {
         },
     );
     return result;
+  }
+
+  // Método para buscar filmes pelo nome
+  Future<void> fetchMoviesByName(String query) async {
+    movieError = null;
+    final result = await _repository.fetchMoviesByName(query);
+    result.fold(
+          (error) => movieError = error,
+          (movies) => movieResponseModel = movies,
+    );
   }
 }
