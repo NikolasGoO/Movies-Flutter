@@ -36,17 +36,22 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
     });
   }
 
-  Future<void> _translateSynopsis() async {
-    if (_controller.movieDetail?.overview != null) {
-      final translated = await _controller.translateSynopsis(
-        _controller.movieDetail!.overview!,
-        'PT', // Português como idioma de destino
-      );
-      setState(() {
-        _translatedSynopsis = translated ?? "Translation failed.";
-      });
-    }
+  void _translateOverview() async {
+    setState(() {
+      _controller.loading = true;
+    });
+
+    final translatedText = await _controller.translateSynopsis(
+        _controller.movieDetail?.overview ?? '',
+        'PT' // Alvo de tradução português
+    );
+
+    setState(() {
+      _controller.movieDetail?.overview = translatedText ?? _controller.movieDetail?.overview;
+      _controller.loading = false;
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +67,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
       actions: [
         IconButton(
           icon: Icon(Icons.translate),
-          onPressed: _translateSynopsis,
+          onPressed: _translateOverview,
           tooltip: 'Translate Synopsis',
         ),
       ],

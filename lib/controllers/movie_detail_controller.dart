@@ -1,4 +1,6 @@
 import 'package:dartz/dartz.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:movies/errors/movie_error.dart';
 import 'package:movies/models/movie_detail_model.dart';
 import 'package:movies/repositories/movie_repository.dart';
@@ -23,20 +25,28 @@ class MovieDetailController {
   }
 
   Future<String?> translateSynopsis(String text, String targetLang) async {
-    final apiDeepl = 'ad46e5a0-a197-44d8-8aa3-d34fb951dadc:fx';
-    const urlDeepl = 'https://api-free.deepl.com/v2/translate';
+    final apiKey = ''; /// Sua Chave API AQUI
 
-    try{
-      final response = await _dio.post(urlDeepl, data: {
-        'auth_key': apiDeepl,
-        'text': text,
-        'targuet_lang': targetLang,
-      });
-      final translatedText = response.data['translations'][0]['text'];
-      return translatedText;
-    } on DioException catch (error) {
-      print('Translation error: ${error.response?.data}');
+    final response = await  http.post(
+      Uri.parse('https://api-free.deepl.com/v2/translate'),
+      headers: {
+        'Authorization': 'DeepL-Auth-Key $apiKey',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+      'text': [text],
+      'target_lang': targetLang,
+    }),
+    );
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return data['translations'][0]['text'] as String?;
+    } else {
+      print('Erro na tradução ${response.body}');
+      if(apiKey == '') {
+        print('Chave API não encontrada.');
+      }
       return null;
     }
-  }
-}
+  }}
